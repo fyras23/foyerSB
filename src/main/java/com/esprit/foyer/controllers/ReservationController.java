@@ -1,6 +1,6 @@
 package com.esprit.foyer.controllers;
 
-import com.esprit.foyer.entities.Reservation;
+import com.esprit.foyer.dto.ReservationDTO;
 import com.esprit.foyer.services.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,26 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/reservations")
 public class ReservationController {
-    final ReservationService reservationService;
+
+    private final ReservationService reservationService;
 
     @PostMapping("/add")
-    public Reservation addReservation(@RequestBody Reservation reservation) {
-        return reservationService.addOrUpdateReservation(reservation);
+    public ReservationDTO addReservation(@RequestBody ReservationDTO reservationDTO) {
+        return reservationService.addOrUpdateReservation(reservationDTO);
     }
 
     @PutMapping("/update")
-    public Reservation updateReservation(@RequestBody Reservation reservation) {
-        return reservationService.addOrUpdateReservation(reservation);
+    public ReservationDTO updateReservation(@RequestBody ReservationDTO reservationDTO) {
+        return reservationService.addOrUpdateReservation(reservationDTO);
     }
 
     @GetMapping("/all")
-    public List<Reservation> findAllReservations() {
+    public List<ReservationDTO> findAllReservations() {
         return reservationService.findAllReservations();
     }
 
     @GetMapping("/{id}")
-    public Reservation findReservationById(@PathVariable String id) {
+    public ReservationDTO findReservationById(@PathVariable String id) {
         return reservationService.findReservationById(id);
     }
 

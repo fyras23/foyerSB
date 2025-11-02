@@ -1,6 +1,6 @@
 package com.esprit.foyer.controllers;
 
-import com.esprit.foyer.entities.Foyer;
+import com.esprit.foyer.dto.FoyerDTO;
 import com.esprit.foyer.services.FoyerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,26 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/foyers")
 public class FoyerController {
-    final FoyerService foyerService;
+
+    private final FoyerService foyerService;
 
     @PostMapping("/add")
-    public Foyer addFoyer(@RequestBody Foyer foyer) {
-        return foyerService.addOrUpdateFoyer(foyer);
+    public FoyerDTO addFoyer(@RequestBody FoyerDTO foyerDTO) {
+        return foyerService.addOrUpdateFoyer(foyerDTO);
     }
 
     @PutMapping("/update")
-    public Foyer updateFoyer(@RequestBody Foyer foyer) {
-        return foyerService.addOrUpdateFoyer(foyer);
+    public FoyerDTO updateFoyer(@RequestBody FoyerDTO foyerDTO) {
+        return foyerService.addOrUpdateFoyer(foyerDTO);
     }
 
     @GetMapping("/all")
-    public List<Foyer> findAllFoyers() {
+    public List<FoyerDTO> findAllFoyers() {
         return foyerService.findAllFoyers();
     }
 
     @GetMapping("/{id}")
-    public Foyer findFoyerById(@PathVariable Long id) {
+    public FoyerDTO findFoyerById(@PathVariable Long id) {
         return foyerService.findFoyerById(id);
     }
 

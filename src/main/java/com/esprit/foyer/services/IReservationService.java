@@ -1,12 +1,11 @@
 package com.esprit.foyer.services;
 
-import com.esprit.foyer.entities.Reservation;
-
+import com.esprit.foyer.dto.ReservationDTO;
 import java.util.List;
 
 public interface IReservationService {
-    Reservation addOrUpdateReservation(Reservation reservation);
-    Reservation findReservationById(String idReservation);
-    List<Reservation> findAllReservations();
+    ReservationDTO addOrUpdateReservation(ReservationDTO reservationDTO);
+    ReservationDTO findReservationById(String idReservation);
+    List<ReservationDTO> findAllReservations();
     void deleteReservationById(String idReservation);
 }

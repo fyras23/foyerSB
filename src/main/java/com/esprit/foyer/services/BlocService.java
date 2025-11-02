@@ -1,29 +1,39 @@
 package com.esprit.foyer.services;
 
 import com.esprit.foyer.Repo.BlocRepo;
+import com.esprit.foyer.dto.BlocDTO;
 import com.esprit.foyer.entities.Bloc;
+import com.esprit.foyer.mappers.BlocMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class BlocService implements IBlocService {
     final BlocRepo blocRepository;
+    private final BlocMapper blocMapper;
     @Override
-    public Bloc addOrUpdateBloc(Bloc bloc) {
-        return blocRepository.save(bloc);
+    public BlocDTO addOrUpdateBloc(BlocDTO blocDTO) {
+        Bloc bloc = blocMapper.toEntity(blocDTO);
+        Bloc saved = blocRepository.save(bloc);
+        return blocMapper.toDto(saved);
     }
 
     @Override
-    public Bloc findBlocById(long idBloc) {
-        return blocRepository.findById(idBloc).get();
+    public BlocDTO findBlocById(long idBloc) {
+        Bloc bloc = blocRepository.findById(idBloc).orElseThrow();
+        return blocMapper.toDto(bloc);
     }
 
     @Override
-    public List<Bloc> findAllBlocs() {
-        return List.of();
+    public List<BlocDTO> findAllBlocs() {
+        return blocRepository.findAll()
+                .stream()
+                .map(blocMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

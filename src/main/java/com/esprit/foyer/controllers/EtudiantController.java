@@ -1,6 +1,6 @@
 package com.esprit.foyer.controllers;
 
-import com.esprit.foyer.entities.Etudiant;
+import com.esprit.foyer.dto.EtudiantDTO;
 import com.esprit.foyer.services.EtudiantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,26 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/etudiants")
 public class EtudiantController {
-    final EtudiantService etudiantService;
+
+    private final EtudiantService etudiantService;
 
     @PostMapping("/add")
-    public Etudiant addEtudiant(@RequestBody Etudiant etudiant) {
-        return etudiantService.addOrUpdateEtudiant(etudiant);
+    public EtudiantDTO addEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
+        return etudiantService.addOrUpdateEtudiant(etudiantDTO);
     }
 
     @PutMapping("/update")
-    public Etudiant updateEtudiant(@RequestBody Etudiant etudiant) {
-        return etudiantService.addOrUpdateEtudiant(etudiant);
+    public EtudiantDTO updateEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
+        return etudiantService.addOrUpdateEtudiant(etudiantDTO);
     }
 
     @GetMapping("/all")
-    public List<Etudiant> findAllEtudiants() {
+    public List<EtudiantDTO> findAllEtudiants() {
         return etudiantService.findAllEtudiants();
     }
 
     @GetMapping("/{id}")
-    public Etudiant findEtudiantById(@PathVariable Long id) {
+    public EtudiantDTO findEtudiantById(@PathVariable Long id) {
         return etudiantService.findEtudiantById(id);
     }
 

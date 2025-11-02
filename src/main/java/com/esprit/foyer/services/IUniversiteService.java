@@ -1,12 +1,11 @@
 package com.esprit.foyer.services;
 
-import com.esprit.foyer.entities.Universite;
-
+import com.esprit.foyer.dto.UniversiteDTO;
 import java.util.List;
 
 public interface IUniversiteService {
-    Universite addOrUpdateUniversite(Universite universite);
-    Universite findUniversiteById(Long idUniversite);
-    List<Universite> findAllUniversites();
+    UniversiteDTO addOrUpdateUniversite(UniversiteDTO universiteDTO);
+    UniversiteDTO findUniversiteById(Long idUniversite);
+    List<UniversiteDTO> findAllUniversites();
     void deleteUniversiteById(Long idUniversite);
 }

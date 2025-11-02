@@ -1,6 +1,6 @@
 package com.esprit.foyer.controllers;
 
-import com.esprit.foyer.entities.Universite;
+import com.esprit.foyer.dto.UniversiteDTO;
 import com.esprit.foyer.services.UniversiteService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,26 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/universites")
 public class UniversiteController {
-    final UniversiteService universiteService;
+
+    private final UniversiteService universiteService;
 
     @PostMapping("/add")
-    public Universite addUniversite(@RequestBody Universite universite) {
-        return universiteService.addOrUpdateUniversite(universite);
+    public UniversiteDTO addUniversite(@RequestBody UniversiteDTO universiteDTO) {
+        return universiteService.addOrUpdateUniversite(universiteDTO);
     }
 
     @PutMapping("/update")
-    public Universite updateUniversite(@RequestBody Universite universite) {
-        return universiteService.addOrUpdateUniversite(universite);
+    public UniversiteDTO updateUniversite(@RequestBody UniversiteDTO universiteDTO) {
+        return universiteService.addOrUpdateUniversite(universiteDTO);
     }
 
     @GetMapping("/all")
-    public List<Universite> findAllUniversites() {
+    public List<UniversiteDTO> findAllUniversites() {
         return universiteService.findAllUniversites();
     }
 
     @GetMapping("/{id}")
-    public Universite findUniversiteById(@PathVariable Long id) {
+    public UniversiteDTO findUniversiteById(@PathVariable Long id) {
         return universiteService.findUniversiteById(id);
     }
 

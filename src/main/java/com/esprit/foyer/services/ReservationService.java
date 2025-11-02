@@ -1,30 +1,41 @@
 package com.esprit.foyer.services;
 
 import com.esprit.foyer.Repo.ReservationRepo;
+import com.esprit.foyer.dto.ReservationDTO;
 import com.esprit.foyer.entities.Reservation;
+import com.esprit.foyer.mappers.ReservationMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ReservationService implements IReservationService {
-    final ReservationRepo reservationRepository;
+
+    private final ReservationRepo reservationRepository;
+    private final ReservationMapper reservationMapper;
 
     @Override
-    public Reservation addOrUpdateReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
+    public ReservationDTO addOrUpdateReservation(ReservationDTO reservationDTO) {
+        Reservation reservation = reservationMapper.toEntity(reservationDTO);
+        Reservation saved = reservationRepository.save(reservation);
+        return reservationMapper.toDto(saved);
     }
 
     @Override
-    public Reservation findReservationById(String idReservation) {
-        return reservationRepository.findById(idReservation).orElse(null);
+    public ReservationDTO findReservationById(String idReservation) {
+        Reservation reservation = reservationRepository.findById(idReservation).orElseThrow();
+        return reservationMapper.toDto(reservation);
     }
 
     @Override
-    public List<Reservation> findAllReservations() {
-        return reservationRepository.findAll();
+    public List<ReservationDTO> findAllReservations() {
+        return reservationRepository.findAll()
+                .stream()
+                .map(reservationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

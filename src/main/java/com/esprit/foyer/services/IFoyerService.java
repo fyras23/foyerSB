@@ -1,12 +1,11 @@
 package com.esprit.foyer.services;
 
-import com.esprit.foyer.entities.Foyer;
-
+import com.esprit.foyer.dto.FoyerDTO;
 import java.util.List;
 
 public interface IFoyerService {
-    Foyer addOrUpdateFoyer(Foyer foyer);
-    Foyer findFoyerById(Long idFoyer);
-    List<Foyer> findAllFoyers();
+    FoyerDTO addOrUpdateFoyer(FoyerDTO foyerDTO);
+    FoyerDTO findFoyerById(Long idFoyer);
+    List<FoyerDTO> findAllFoyers();
     void deleteFoyerById(Long idFoyer);
 }

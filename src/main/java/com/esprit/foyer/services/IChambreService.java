@@ -1,12 +1,11 @@
 package com.esprit.foyer.services;
 
-import com.esprit.foyer.entities.Chambre;
-
+import com.esprit.foyer.dto.ChambreDTO;
 import java.util.List;
 
 public interface IChambreService {
-    public Chambre addOrUpdateChambre(Chambre chambre);
-    public Chambre findChambreById(Long idChambre);
-    public List<Chambre> findAllChambres();
-    public void deleteChambreById(Long idChambre);
+    ChambreDTO addOrUpdateChambre(ChambreDTO chambreDTO);
+    ChambreDTO findChambreById(Long idChambre);
+    List<ChambreDTO> findAllChambres();
+    void deleteChambreById(Long idChambre);
 }

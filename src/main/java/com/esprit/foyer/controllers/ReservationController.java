@@ -38,4 +38,13 @@ public class ReservationController {
     public void deleteReservation(@PathVariable String id) {
         reservationService.deleteReservationById(id);
     }
+
+    @PutMapping("/{idReservation}/assignEtudiant/{idEtudiant}")
+    public ReservationDTO assignEtudiant(
+            @PathVariable String idReservation,
+            @PathVariable Long idEtudiant) {
+        return reservationService.assignEtudiantToReservation(idReservation, idEtudiant);
+
+    }
+
 }

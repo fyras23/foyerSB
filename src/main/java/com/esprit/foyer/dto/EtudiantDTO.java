@@ -2,6 +2,7 @@ package com.esprit.foyer.dto;
 
 import lombok.Data;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 public class EtudiantDTO {
@@ -11,4 +12,6 @@ public class EtudiantDTO {
     private Long cin;
     private String ecole;
     private Date dateNaissance;
+
+    private Set<String> reservationIds;
 }

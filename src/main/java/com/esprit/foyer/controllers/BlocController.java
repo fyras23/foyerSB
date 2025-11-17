@@ -1,6 +1,7 @@
 package com.esprit.foyer.controllers;
 
 import com.esprit.foyer.dto.BlocDTO;
+import com.esprit.foyer.dto.BlocFoyerDTO;
 import com.esprit.foyer.services.BlocService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -38,4 +39,19 @@ public class BlocController {
     public void deleteBlocBy(@PathVariable("id") long idBloc) {
         blocService.deleteBlocById(idBloc);
     }
+
+    @PostMapping("/addWithNewFoyer")
+    public BlocFoyerDTO addBlocWithNewFoyer(@RequestBody BlocFoyerDTO BFdto) {
+        return blocService.addBlocWithNewFoyer(BFdto);
+    }
+
+    @PutMapping("/{idBloc}/assignFoyer/{idFoyer}")
+    public BlocDTO affecterBlocAFoyer(@PathVariable Long idBloc, @PathVariable Long idFoyer) {
+        return blocService.assignBlocToFoyer(idBloc, idFoyer);
+    }
+    @PutMapping("/{idBloc}/desaffecterFoyer")
+    public BlocDTO desaffecterBlocDeFoyer(@PathVariable Long idBloc) {
+        return blocService.decommissionBlocFoyer(idBloc);
+    }
+
 }

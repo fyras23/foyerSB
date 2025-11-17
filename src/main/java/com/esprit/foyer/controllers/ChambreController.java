@@ -1,6 +1,7 @@
 package com.esprit.foyer.controllers;
 
 import com.esprit.foyer.dto.ChambreDTO;
+import com.esprit.foyer.dto.ChambreReservationDTO;
 import com.esprit.foyer.services.ChambreService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,22 @@ public class ChambreController {
     @DeleteMapping("/delete/{id}")
     public void deleteChambreById(@PathVariable("id") Long idChambre) {
         chambreService.deleteChambreById(idChambre);
+    }
+
+    @PostMapping("/addWithReservation")
+    public ChambreReservationDTO addChambreWithReservation(@RequestBody ChambreReservationDTO dto) {
+        return chambreService.addChambreWithReservation(dto);
+    }
+
+    @PutMapping("/{chambreId}/assignReservation/{reservationId}")
+    public ChambreReservationDTO assignReservation(
+            @PathVariable Long chambreId,
+            @PathVariable String reservationId) {
+        return chambreService.assignReservation(chambreId, reservationId);
+    }
+
+    @PutMapping("/{chambreId}/cancelReservation")
+    public ChambreReservationDTO cancelReservation(@PathVariable Long chambreId) {
+        return chambreService.cancelReservation(chambreId);
     }
 }

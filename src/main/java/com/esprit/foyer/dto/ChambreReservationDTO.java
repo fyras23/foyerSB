@@ -1,14 +1,13 @@
 package com.esprit.foyer.dto;
 
+import com.esprit.foyer.entities.Reservation;
 import lombok.Data;
-
 import java.util.Set;
 
 @Data
-public class ChambreDTO {
+public class ChambreReservationDTO {
     private Long idChambre;
     private Long numeroChambre;
     private String typeC;
-    private Long blocId;
-    private Set<String> reservationIds;
+    private Set<ReservationDTO> reservations;
 }

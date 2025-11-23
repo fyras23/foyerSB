@@ -17,4 +17,9 @@ public interface IBlocService {
     public BlocFoyerDTO addBlocWithNewFoyer(BlocFoyerDTO BFdto);
     BlocDTO assignBlocToFoyer(Long idBloc, Long idFoyer);
     BlocDTO decommissionBlocFoyer(Long idBloc);
+
+    List<BlocDTO> findBlocsNonAffectes();
+    List<BlocDTO> findBlocsByCapaciteSuperieurA(Long capacite);
+    List<BlocDTO> findBlocsByNomCommencePar(String prefix);
+    List<BlocDTO> findBlocsByNomEtCapacite(String prefix, Long capacite);
 }

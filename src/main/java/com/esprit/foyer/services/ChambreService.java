@@ -5,7 +5,6 @@ import com.esprit.foyer.Repo.ReservationRepo;
 import com.esprit.foyer.dto.ChambreDTO;
 import com.esprit.foyer.dto.ChambreReservationDTO;
 import com.esprit.foyer.dto.ReservationDTO;
-import com.esprit.foyer.entities.Bloc;
 import com.esprit.foyer.entities.Chambre;
 import com.esprit.foyer.entities.Reservation;
 import com.esprit.foyer.entities.TypeChambre;
@@ -15,7 +14,6 @@ import com.esprit.foyer.mappers.ReservationMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 public class ChambreService implements IChambreService {
 
     private final ChambreRepo chambreRepo;
+
     private final ChambreMapper chambreMapper;
     private final ChambreReservationMapper chambreReservationMapper;
     private final ReservationRepo reservationRepo;
@@ -61,7 +60,6 @@ public class ChambreService implements IChambreService {
     public ChambreReservationDTO addChambreWithReservation(ChambreReservationDTO CRdto) {
         Chambre chambre = chambreReservationMapper.toEntity(CRdto);
 
-        // Save reservations
         Set<Reservation> reservations = new HashSet<>();
         if (CRdto.getReservations() != null) {
             for (ReservationDTO resDto : CRdto.getReservations()) {
@@ -71,25 +69,19 @@ public class ChambreService implements IChambreService {
             }
         }
 
-        // Link reservations to Chambre
         chambre.setReservation(reservations);
 
-        // Save Chambre
         chambre = chambreRepo.save(chambre);
-
-        // Return DTO
         return chambreReservationMapper.toDto(chambre);
     }
 
     @Override
     public ChambreReservationDTO assignReservation(Long chambreId, String reservationId) {
-        // 1. Load Chambre and Reservation
         Chambre chambre = chambreRepo.findById(chambreId)
                 .orElseThrow();
         Reservation reservation = reservationRepo.findById(reservationId)
                 .orElseThrow();
 
-        // 2. Add reservation to Chambre
         Set<Reservation> reservations = chambre.getReservation();
         if (reservations == null) {
             reservations = new HashSet<>();
@@ -97,25 +89,42 @@ public class ChambreService implements IChambreService {
         reservations.add(reservation);
         chambre.setReservation(reservations);
 
-        // 3. Save Chambre
         chambre = chambreRepo.save(chambre);
 
-        // 4. Return DTO
         return chambreReservationMapper.toDto(chambre);
     }
 
     @Override
-    public ChambreReservationDTO cancelReservation(Long chambreId) {
+    public ChambreReservationDTO cancelReservation(Long chambreId, String reservationId) {
+
+        // 1. Load Chambre
         Chambre chambre = chambreRepo.findById(chambreId)
                 .orElseThrow(() -> new IllegalArgumentException("Chambre not found"));
 
-        // 2. Remove all reservations (or you can remove a specific one if needed)
-        chambre.setReservation(new HashSet<>());
+        // 2. Load Reservation
+        Reservation reservation = reservationRepo.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
 
-        // 3. Save Chambre
+        // 3. Remove reservation ONLY from this chambre
+        if (chambre.getReservation() != null) {
+            chambre.getReservation().remove(reservation);
+        }
+
+        // 4. Save chambre
         chambre = chambreRepo.save(chambre);
 
-        // 4. Return DTO
+        // 5. Return DTO
         return chambreReservationMapper.toDto(chambre);
+    }
+
+    @Override
+    public List<Chambre> findByType(TypeChambre type) {
+        return chambreRepo.findByTypeC(type);
+    }
+
+    @Override
+    public ChambreDTO findByNumero(Long numeroChambre) {
+        Chambre chambre = chambreRepo.findByNumeroChambre(numeroChambre);
+        return chambreMapper.toDto(chambre);
     }
 }

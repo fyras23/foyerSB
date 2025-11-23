@@ -13,7 +13,7 @@ public interface ChambreMapper {
 
 
     @Mapping(source = "blocs.idBloc", target = "blocId")
-    @Mapping(source = "typeC", target = "typeC")
+
     ChambreDTO toDto(Chambre chambre);
 
 

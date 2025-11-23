@@ -2,6 +2,7 @@ package com.esprit.foyer.controllers;
 
 import com.esprit.foyer.dto.BlocDTO;
 import com.esprit.foyer.dto.BlocFoyerDTO;
+import com.esprit.foyer.entities.Bloc;
 import com.esprit.foyer.services.BlocService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,30 @@ public class BlocController {
     @PutMapping("/{idBloc}/desaffecterFoyer")
     public BlocDTO desaffecterBlocDeFoyer(@PathVariable Long idBloc) {
         return blocService.decommissionBlocFoyer(idBloc);
+    }
+
+
+
+    @GetMapping("/nonAffectes")
+    public List<BlocDTO> getBlocsNonAffectes() {
+        return blocService.findBlocsNonAffectes();
+    }
+
+    @GetMapping("/capaciteSuperieur/{capacite}")
+    public List<BlocDTO> getBlocsByCapacite(@PathVariable Long capacite) {
+        return blocService.findBlocsByCapaciteSuperieurA(capacite);
+    }
+
+    @GetMapping("/nomCommencePar/{prefix}")
+    public List<BlocDTO> getBlocsByNomCommencePar(@PathVariable String prefix) {
+        return blocService.findBlocsByNomCommencePar(prefix);
+    }
+
+    @GetMapping("/nomEtCapacite")
+    public List<BlocDTO> getBlocsByNomEtCapacite(
+            @RequestParam String prefix,
+            @RequestParam Long capacite) {
+        return blocService.findBlocsByNomEtCapacite(prefix, capacite);
     }
 
 }

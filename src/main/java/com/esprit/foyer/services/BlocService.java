@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,20 +58,20 @@ public class BlocService implements IBlocService {
             throw new IllegalArgumentException("Foyer information is required");
         }
 
-        // Convert DTO to Entity
+
         Bloc bloc = blocFoyerMapper.toEntity(BFdto);
 
-        // Create and save the new Foyer first
+
         Foyer foyer = foyerMapper.toEntity(BFdto.getFoyer());
         foyer = foyerRepo.save(foyer);
 
-        // Link the Foyer to the Bloc
+
         bloc.setFoyer(foyer);
 
-        // Save the Bloc
+
         bloc = blocRepository.save(bloc);
 
-        // Return the result
+
         return blocFoyerMapper.toDto(bloc);
     }
 
@@ -97,4 +98,43 @@ public class BlocService implements IBlocService {
     }
 
 
+    @Override
+    public List<BlocDTO> findBlocsNonAffectes() {
+        List<Bloc> blocs = blocRepository.findByFoyerIsNull();
+        List<BlocDTO> blocDTOs = new ArrayList<>();
+        for (Bloc bloc : blocs) {
+            blocDTOs.add(blocMapper.toDto(bloc));
+        }
+        return blocDTOs;
+    }
+
+    @Override
+    public List<BlocDTO> findBlocsByCapaciteSuperieurA(Long capacite) {
+        List<Bloc> blocs = blocRepository.findByCapaciteBlocGreaterThan(capacite);
+        List<BlocDTO> blocDTOs = new ArrayList<>();
+        for (Bloc bloc : blocs) {
+            blocDTOs.add(blocMapper.toDto(bloc));
+        }
+        return blocDTOs;
+    }
+
+    @Override
+    public List<BlocDTO> findBlocsByNomCommencePar(String prefix) {
+        List<Bloc> blocs = blocRepository.findByNomBlocStartingWith(prefix);
+        List<BlocDTO> blocDTOs = new ArrayList<>();
+        for (Bloc bloc : blocs) {
+            blocDTOs.add(blocMapper.toDto(bloc));
+        }
+        return blocDTOs;
+    }
+
+    @Override
+    public List<BlocDTO> findBlocsByNomEtCapacite(String prefix, Long capacite) {
+        List<Bloc> blocs = blocRepository.findByNomBlocStartingWithAndCapaciteBlocGreaterThan(prefix, capacite);
+        List<BlocDTO> blocDTOs = new ArrayList<>();
+        for (Bloc bloc : blocs) {
+            blocDTOs.add(blocMapper.toDto(bloc));
+        }
+        return blocDTOs;
+    }
 }

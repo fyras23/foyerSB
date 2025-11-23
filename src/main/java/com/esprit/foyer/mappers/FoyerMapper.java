@@ -17,6 +17,6 @@ public interface FoyerMapper {
 
 
     @Mapping(source = "universiteId", target = "universites.idUniversite")
-    @Mapping(target = "blocs", ignore = true) // ignore to avoid recursion
+    @Mapping(target = "blocs", ignore = true)
     Foyer toEntity(FoyerDTO dto);
 }
